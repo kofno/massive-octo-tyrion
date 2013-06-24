@@ -9,6 +9,7 @@ class LoadDashboardTest < ActionDispatch::IntegrationTest
     assert assigns(:user), "Failed to assign user"
 
     assert_select 'h1', "Sample User"
+    assert_select 'h2', "eChecking      $300.54"
   end
 
   test "Failing dashboard loads" do
