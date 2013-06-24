@@ -17,6 +17,10 @@ class GeezeoClient
     get_request "/api/v1/users/#{user_id}/accounts/#{account_id}/transactions"
   end
 
+  def user(user_id)
+    get_request "/api/v1/users/#{user_id}"
+  end
+
   private
 
   def get_request(url)
