@@ -8,8 +8,9 @@ class AccountsController < ApplicationController
   end
 
   def show
+    @accounts = Account.find(user_id)
     @transactions = Transaction.find(user_id, account_id, page)
-    fresh_when etag: @transactions
+    fresh_when etag: [@accounts, @transactions]
   end
 
   private

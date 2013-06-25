@@ -8,8 +8,8 @@ class ViewTransactionsTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert assigns[:transactions]
 
-    assert_select 'dt', 'GameStop Entertainment June 9, 2013'
-    assert_select 'dd', '-50.99'
+    assert_select '.memo', /^GameStop/
+    assert_select '.balance.debit', '59.99'
   end
 
   test "Loading transactions fail" do

@@ -9,9 +9,9 @@ class ViewAccountsTest < ActionDispatch::IntegrationTest
     assert assigns[:user]
     assert assigns[:accounts]
 
-    assert_select 'dt a', 'eChecking'
-    assert_select 'dt a', 'Complete Savings'
-    assert_select 'dt a', 'Preferred Plus Card'
+    assert_select 'li a', /^eChecking/
+    assert_select 'li a', /^Complete Savings/
+    assert_select 'li a', /^Preferred Plus Card/
   end
 
   test "accounts load failure" do

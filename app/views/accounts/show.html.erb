@@ -1,14 +1,32 @@
-<dl id="transactions">
-  <% for transaction in @transactions -%>
-    <dt>
-      <p class="memo"><%= transaction.memo %></p>
-      <p class="posted_date"><%= l transaction.posted_at.to_date, format: :long %></p>
-      <p class="tags"><%= transaction.tags %></p>
-    </dt>
-    <dd><%= transaction.transaction_type %> <%= transaction.balance %></dd>
+<% content_for :nav do -%>
+  <%= render partial: 'nav', object: @accounts, as: 'accounts' %>
+<% end -%>
+
+<table id="transactions" class="table">
+  <% @transactions.group_by { |t| t.posted_at.to_date }.each do |date, txns| -%>
+    <tr class="info">
+      <td colspan=2 class="divider">
+        <strong><%= l date, format: :long %></strong>
+      </td>
+    </tr>
+
+    <% for transaction in txns -%>
+      <tr>
+        <td class="memo">
+          <%= transaction.memo %>
+          <p class="tags"><%= render_taggings(transaction.tags) %></p>
+        </td>
+        <td>
+          <span class="balance <%= transaction.transaction_type.downcase %>">
+            <%= transaction.balance %>
+          </span>
+        </td>
+      </tr>
+    <% end -%>
+
   <% end -%>
-</dl>
+</table>
 
 <% if @transactions.more? %>
-  <%= link_to "More", account_path(user_id, account_id, page: @transactions.next_page) %>
+  <%= link_to "More", account_path(user_id, account_id, page: @transactions.next_page), class: 'btn btn-primary' %>
 <% end -%>

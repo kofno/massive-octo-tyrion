@@ -1,0 +1,11 @@
+<li class="nav-header">Accounts</li>
+<% for account in accounts -%>
+  <%= content_tag :li, li_options(account) do -%>
+    <%= link_to account_path(user_id, account.id) do %>
+      <%= account.name %>
+      <span class="label balance">
+        <%= number_to_currency account.balance %>
+      </span>
+    <% end -%>
+  <% end %>
+<% end -%>
