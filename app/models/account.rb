@@ -6,6 +6,10 @@ class Account
       client.accounts(user_id)["accounts"].map { |a| new(a) }
     end
 
+    def find_by_user_and_account(user, account)
+      new client.account(user, account)
+    end
+
     private
 
     def client

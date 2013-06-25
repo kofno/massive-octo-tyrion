@@ -13,8 +13,12 @@ class GeezeoClient
     get_request "/api/v1/users/#{user_id}/accounts"
   end
 
-  def transactions(user_id, account_id)
-    get_request "/api/v1/users/#{user_id}/accounts/#{account_id}/transactions"
+  def account(user_id, account)
+    get_request "/api/v1/users/#{user_id}/accounts/#{account}"
+  end
+
+  def transactions(user_id, account_id, page=1)
+    get_request "/api/v1/users/#{user_id}/accounts/#{account_id}/transactions?page=#{page}"
   end
 
   def user(user_id)
