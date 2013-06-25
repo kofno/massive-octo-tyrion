@@ -1,0 +1,6 @@
+<dl id="accounts">
+  <% for account in @accounts -%>
+    <dt><%= link_to account.name, account_path(user_id, account.id) %></dt>
+    <dd><%= number_to_currency account.balance %></dd>
+  <% end -%>
+</dl>

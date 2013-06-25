@@ -1,0 +1,14 @@
+<dl id="transactions">
+  <% for transaction in @transactions -%>
+    <dt>
+      <p class="memo"><%= transaction.memo %></p>
+      <p class="posted_date"><%= l transaction.posted_at.to_date, format: :long %></p>
+      <p class="tags"><%= transaction.tags %></p>
+    </dt>
+    <dd><%= transaction.transaction_type %> <%= transaction.balance %></dd>
+  <% end -%>
+</dl>
+
+<% if @transactions.more? %>
+  <%= link_to "More", account_path(user_id, account_id, page: @transactions.next_page) %>
+<% end -%>
