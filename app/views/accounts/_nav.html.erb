@@ -9,3 +9,9 @@
     <% end -%>
   <% end %>
 <% end -%>
+<li class="divider"></li>
+<li>
+  <span class="label balance">
+    <%= number_to_currency(accounts.reduce(0) { |sum, a| sum += a.balance.to_f }) %>
+  </span>
+</li>
