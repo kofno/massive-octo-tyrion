@@ -9,6 +9,13 @@ class GeezeoClient
   ssl_version :SSLv3
   ssl_ca_file ENV["SSL_CERT_FILE"]
 
+  attr_reader :cache
+  private     :cache
+
+  def initialize(args={})
+    @cache = args.fetch(:cache, Rails.cache)
+  end
+
   def accounts(user_id)
     get_request "/api/v1/users/#{user_id}/accounts"
   end
@@ -28,19 +35,46 @@ class GeezeoClient
   private
 
   def get_request(url)
-    process_response(self.class.get(url))
+    response = self.class.get url, {
+      headers: {
+        "If-None-Match" => lookup_etag(url)
+      }
+    }
+    process_response(response, url)
   end
 
   # Handling just the most likely responses.
-  def process_response(response)
+  def process_response(response, url)
     case response.code
     when 200...300
-      response.parsed_response
+      cache_and_return response, url
+    when 304
+      lookup_content url
     when 400...500
       raise NotFoundError.new(response.response.message)
     else
       raise UnexpectedError.new(response.response.message)
     end
+  end
+
+  def cache_and_return(response, url)
+    etag = response.headers["etag"]
+    results = response.parsed_response
+
+    if etag
+      cache.write([url, "etag"], etag)
+      cache.write([url, "content"], results)
+    end
+
+    results
+  end
+
+  def lookup_content(url)
+    cache.read([url, "content"])
+  end
+
+  def lookup_etag(url)
+    cache.read([url, "etag"]) || ""
   end
 
   class NotFoundError < StandardError; end
