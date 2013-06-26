@@ -32,7 +32,10 @@
               account_path(user_id, account_id, page: @transactions.next_page),
               id: 'more-transactions',
               class: 'btn btn-primary',
-              data: { remote: true, append: '#transactions' } %>
+              data: {
+                :remote => true,
+                :append => '#transactions',
+                "no-turbolink" => true } %>
 <% else -%>
   <span id="more-transactions" class="alert alert-info">
     No more transactions
