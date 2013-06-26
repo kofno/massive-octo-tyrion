@@ -1,20 +1,13 @@
 class Account
   include ActiveModel::Model
+  extend GeezeoSupport
 
-  class << self
-    def find(user_id)
-      client.accounts(user_id)["accounts"].map { |a| new(a) }
-    end
+  def self.find(user_id)
+    client.accounts(user_id)["accounts"].map { |a| new(a) }
+  end
 
-    def find_by_user_and_account(user, account)
-      new client.account(user, account)
-    end
-
-    private
-
-    def client
-      @client ||= GeezeoClient.new
-    end
+  def self.find_by_user_and_account(user, account)
+    new client.account(user, account)
   end
 
   attr_accessor :id,

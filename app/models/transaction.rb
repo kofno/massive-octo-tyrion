@@ -1,25 +1,11 @@
 class Transaction
   include ActiveModel::Model
+  extend GeezeoSupport
 
-  class << self
-    def find(user_id, account_id, page=1)
-      results = client.transactions(user_id, account_id, page)
-      transactions = results["transactions"].map { |t| new t["transaction"] }
-      make_paginated transactions, results["pages"]
-    end
-
-    private
-
-    def client
-      client ||= GeezeoClient.new
-    end
-
-    def make_paginated(target, pages)
-      target.extend(Pagination)
-      target.page = pages["current_page"]
-      target.total_pages = pages["total_pages"]
-      target
-    end
+  def self.find(user_id, account_id, page=1)
+    results = client.transactions(user_id, account_id, page)
+    transactions = results["transactions"].map { |t| new t["transaction"] }
+    make_paginated transactions, results["pages"]
   end
 
   attr_accessor :id,

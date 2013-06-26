@@ -9,7 +9,7 @@ class ViewTransactionsTest < ActionDispatch::IntegrationTest
     assert assigns[:transactions]
 
     assert_select '.memo', /^GameStop/
-    assert_select '.balance.debit', '59.99'
+    assert_select '.balance.debit', '$59.99'
   end
 
   test "Loading transactions fail" do

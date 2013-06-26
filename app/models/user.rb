@@ -1,14 +1,9 @@
 class User
   include ActiveModel::Model
+  extend GeezeoSupport
 
-  class << self
-    def find(user_id)
-      new client.user(user_id)
-    end
-
-    def client
-      @client ||= GeezeoClient.new
-    end
+  def self.find(user_id)
+    new client.user(user_id)
   end
 
   attr_accessor :id,
