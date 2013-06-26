@@ -18,7 +18,7 @@
         </td>
         <td>
           <span class="balance <%= transaction.transaction_type.downcase %>">
-            <%= transaction.balance %>
+            <%= number_to_currency transaction.balance %>
           </span>
         </td>
       </tr>
